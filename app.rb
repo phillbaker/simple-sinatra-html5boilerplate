@@ -1,11 +1,10 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'sinatra'
-require 'haml'
 require 'sass'
 
 configure do
-  set :haml, { :format => :html5, :layout_engine => :erb }
+  #set :haml, { :format => :html5, :layout_engine => :erb }
 end
 
 helpers do
@@ -28,5 +27,6 @@ get '/' do
   @title = "Hello world!"
   @descr = "This is a description for search engines and such."
   @body_classes = "oneclass anotherclass"
-  haml :index
+  @content = "Foo bar."
+  erb :index
 end
