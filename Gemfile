@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'compass'
+gem 'compass' #=> sass implied...
 gem 'erector'
 
 group :development do

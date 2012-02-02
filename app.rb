@@ -12,7 +12,7 @@ class App < Sinatra::Base
   set :root, File.dirname(__FILE__)
   set :app_file, __FILE__
   set :views, File.join('app', 'views')
-  #set :environment, :production #TODO do this in config.ru?
+  set :environment, RACK_ENV if defined? RACK_ENV
   #add the views directory to the 'require' LOAD_PATH for erector to work
   $: << settings.views
   #use ./public for static files
@@ -36,9 +36,10 @@ class App < Sinatra::Base
     ]
 
     #for scss files name by .css
+    #don't really like the redundancy and the trick of calling the file by it's translated name
     css :application, '/css/application.css', [
       '/css/html5boilerplate.css',
-      '/css/style.css' #don't really like the redundancy and the trick of calling the file by it's translated name
+      '/css/style.css' 
     ]
 
     js_compression  :jsmin
@@ -77,7 +78,7 @@ class App < Sinatra::Base
     @title = "Hello world!"
     @descr = "This is a description for search engines and such."
     @body_classes = "oneclass anotherclass"
-    @content = "Foo bar."
+    @content = "Foo bar. - #{RACK_ENV if defined? RACK_ENV}"
     erb :index
   end
   
