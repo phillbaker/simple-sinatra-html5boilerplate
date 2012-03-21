@@ -6,46 +6,21 @@ module Erector
     #
     # TODO: erector is xhtml based, meta and link tags don't need to be self closing in html5 doctype
     class Html5boilerplate < Page
-      # def initialize(assigns = {}, scope = nil, &block)
-      #   super(assigns, &block)
-      #   @@scope = scope
-      #   puts "there"
-      #   puts @@scope
-      # end
-      # 
-      # class<<self
-      #   attr_accessor :scope
-      #   def method_missing(meth, *args, &block)
-      #     #Sinatra::AssetPack.css
-      #     #if asset_pack.respond_to?(meth)
-      #     # asset_pack.send(meth, *args, & block)
-      #     # else super(meth)
-      #     # if meth.to_s =~ /^get_css_url$/
-      #     #   "hello"
-      #     # else
-      #     #   super
-      #     # end
-      #     puts "here"
-      #     puts @scope
-      #     #puts @@scope
-      #     #@scope.send(meth, *args, &block)
-      #   end
-      # end
       #CSS: implied media=all #TODO still printed: media="all" type="text/css"
       #can be concatenated and minified via build scripts/etc.
       #external :css, 'css/style.css'
       css_urls(:application).each do |url|
         external(:css, url)
       end
-      # [1,2].each do |url|
-      #   external :css, "css/style#{url}.css"
-      # end
-      #Sinatra::AssetPack
       
       #All JavaScript at the bottom, except for Modernizr / Respond.
       #Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
       #For optimal performance, use a custom Modernizr build: www.modernizr.com/download/
-      external :js, 'js/libs/modernizr-2.0.6.min.js' #TODO still printed: type="text/javascript"
+      #TODO still printed: type="text/javascript"
+      js_urls(:head).each do |url|
+        external(:js, url)
+      end
+      #external :js, 'js/libs/modernizr-2.0.6.min.js' 
       
       def doctype
         "<!doctype html>"
@@ -154,11 +129,12 @@ module Erector
         #Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline
         script(:src => '//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js')
         script do
-          rawtext(%{window.jQuery || document.write('<script src="js/libs/jquery-1.6.2.min.js"><\\/script>')})
+          rawtext(%{window.jQuery || document.write('<script src="#{js_urls(:lib).first}"><\\/script>')})
         end
-        #can be minified/concatenated
-        script(:defer => 'defer', :src => 'js/plugins.js') #TODO should just be "defer" without attribute, but erector doesn't really do that
-        script(:defer => 'defer', :src => 'js/script.js')
+        #TODO should just be "defer" without attribute, but erector doesn't really do that
+        js_urls(:app).each do |url|
+          script(:defer => 'defer', :src => url) 
+        end
         
         #removed google analytics tag
         

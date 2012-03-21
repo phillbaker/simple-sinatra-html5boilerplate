@@ -5,7 +5,7 @@ require 'compass'
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/advanced_routes'
-#require 'sinatra/erector'
+require 'sinatra/erector'
 require 'sinatra/assetpackhelpers'
 
 class App < Sinatra::Base
@@ -79,7 +79,7 @@ class App < Sinatra::Base
     @descr = "This is a description for search engines and such."
     @body_classes = "oneclass anotherclass"
     @content = "Foo bar. - #{RACK_ENV if defined? RACK_ENV}"
-    erb :index
+    erector :index
   end
   
   run! if app_file == $0
