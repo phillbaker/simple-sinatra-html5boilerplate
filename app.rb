@@ -5,8 +5,9 @@ require 'compass'
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/advanced_routes'
-require 'sinatra/erector'
-require 'sinatra/assetpackhelpers'
+
+require 'lib/sinatra/erector'
+require 'lib/sinatra/assetpackhelpers'
 
 class App < Sinatra::Base
   set :root, File.dirname(__FILE__)
@@ -81,8 +82,10 @@ class App < Sinatra::Base
   end
   
   get '/inline' do
+    # code = "p text 'text'"
+    # erector code
     erector do
-      
+      p text 'text'
     end
   end
   

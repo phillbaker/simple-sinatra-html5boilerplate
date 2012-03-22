@@ -15,11 +15,11 @@ module Sinatra
   # end
 
   module Templates
-    def erector(template, options={}, locals={})
+    def erector(template=nil, options={}, locals={}, &block)
       #puts settings.environment == :development #TODO put in a reference to the sinatra object, pass in self
       options[:environment] ||= settings.environment
       #options[:sinatra] ||= self
-      render :rb, template, options, locals #use the rb extension, tilt recognizes this
+      render_ruby :rb, template, options, locals, &block #use the rb extension, tilt recognizes this
     end
   end
 end
@@ -81,25 +81,26 @@ module Tilt
         
       RUBY
       
-      #the views directory must already be added to the LOAD_PATH
-      class_name = name().to_s().downcase().capitalize()
-      #TODO also camelize?
-      #Convention Assumption! I guess, requires the class to be named the same thing as the file
-      file = "#{class_name.downcase()}.html.rb" 
-      #TODO with ruby's require, we have to kill the vm and re-start to reload templates...
-      # maybe just eval it? => not in scope
-      # unless defined? class_name
-      #   eval(@data)
-      # end
-      load file # so we need to define class methods that are available in the scope variable before we require it (to avoid NoMethodErrors), but that's impossible...
-      klass = eval(class_name) # == constantize
-      
-      if block
-        template = klass.new(locals) do 
+      if @data.respond_to?(:call)
+        template = Erector::Widgets::Page.new(locals) do 
+          text eval(@data) if @data
           #TODO test this?
-          text block.call() #if we're creating a layout here, and the passed in block just returns a string, don't think this will work...
+          #text block.call() #if we're creating a layout here, and the passed in block just returns a string, don't think this will work...
         end
       else
+        #the views directory must already be added to the LOAD_PATH
+        class_name = name().to_s().downcase().capitalize()
+        #TODO also camelize?
+        #Convention Assumption! I guess, requires the class to be named the same thing as the file
+        file = "#{class_name.downcase()}.html.rb" 
+        #TODO with ruby's require, we have to kill the vm and re-start to reload templates...
+        # maybe just eval it? => not in scope
+        # unless defined? class_name
+        #   eval(@data)
+        # end
+        load file # so we need to define class methods that are available in the scope variable before we require it (to avoid NoMethodErrors), but that's impossible...
+        klass = eval(class_name) # == constantize
+        
         template = klass.new locals#, scope
         template.instance_eval <<-RUBY
           
