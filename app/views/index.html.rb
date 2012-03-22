@@ -7,7 +7,7 @@ class Index < Erector::Widgets::Html5boilerplate
   def main_content
     #just add content
     p do
-      text @content
+      text @content + "hello"
     end
   end
 end

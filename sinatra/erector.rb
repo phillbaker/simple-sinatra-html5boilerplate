@@ -85,13 +85,13 @@ module Tilt
       class_name = name().to_s().downcase().capitalize()
       #TODO also camelize?
       #Convention Assumption! I guess, requires the class to be named the same thing as the file
-      file = "#{class_name.downcase()}.html" 
+      file = "#{class_name.downcase()}.html.rb" 
       #TODO with ruby's require, we have to kill the vm and re-start to reload templates...
       # maybe just eval it? => not in scope
       # unless defined? class_name
       #   eval(@data)
       # end
-      require file # so we need to define class methods that are available in the scope variable before we require it (to avoid NoMethodErrors), but that's impossible...
+      load file # so we need to define class methods that are available in the scope variable before we require it (to avoid NoMethodErrors), but that's impossible...
       klass = eval(class_name) # == constantize
       
       if block
