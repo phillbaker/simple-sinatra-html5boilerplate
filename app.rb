@@ -12,8 +12,7 @@ class App < Sinatra::Base
   set :root, File.dirname(__FILE__)
   set :app_file, __FILE__
   set :views, File.join('app', 'views')
-  set :environment, RACK_ENV if defined? RACK_ENV
-  #add the views directory to the 'require' LOAD_PATH for erector to work
+  #add the views directory to the 'require' LOAD_PATH for erector templates to work
   $: << settings.views
   #use ./public for static files
   set :logging, true
@@ -76,10 +75,15 @@ class App < Sinatra::Base
 
   get '/' do
     @title = "Hello world!"
-    @descr = "This is a description for search engines and such."
-    @body_classes = "oneclass anotherclass"
     @content = "Foo bar. - #{RACK_ENV if defined? RACK_ENV}"
-    erector :index
+    #implicit usage of layout.html.rb
+    erector :index, :locals => {:title => @title, :content => @content}
+  end
+  
+  get '/inline' do
+    erector do
+      
+    end
   end
   
   run! if app_file == $0

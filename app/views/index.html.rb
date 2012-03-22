@@ -1,8 +1,13 @@
-class Index < Erector::Widget
+require 'boilerplate.html'
+
+class Index < Erector::Widgets::Html5boilerplate
+  def title
+    @title
+  end
   def content
     #just add content
     p do
-      text 'helloworld - class Index < Erector::Widget'
+      text @content
     end
   end
 end
