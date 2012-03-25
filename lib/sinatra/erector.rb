@@ -81,12 +81,11 @@ module Tilt
         
       RUBY
       
-      if @data.respond_to?(:call)
-        template = Erector::Widgets::Page.new(locals) do 
-          text eval(@data) if @data
-          #TODO test this?
-          #text block.call() #if we're creating a layout here, and the passed in block just returns a string, don't think this will work...
-        end
+      #puts @data.respond_to?(:call)
+      if @data.is_a?(Proc)
+        # require 'app/views/boilerplate.html'
+        # template = Erector::Widgets::Html5boilerplate.new(locals, &@data)
+        template = Erector::Widgets::Page.new(locals, &@data)
       else
         #the views directory must already be added to the LOAD_PATH
         class_name = name().to_s().downcase().capitalize()
@@ -101,17 +100,17 @@ module Tilt
         load file # so we need to define class methods that are available in the scope variable before we require it (to avoid NoMethodErrors), but that's impossible...
         klass = eval(class_name) # == constantize
         
-        template = klass.new locals#, scope
-        template.instance_eval <<-RUBY
-          
-        RUBY
+        template = klass.new locals, &block
+        # template.instance_eval <<-RUBY
+        # 
+        # RUBY
       end
       
       pretty = options[:environment] == :development
       template.to_html(:prettyprint => pretty, :helpers => nil) #render it
     end
 
-    #TODO
+    #TODO?
     def precompiled_template(locals)
       #data.to_str
     end

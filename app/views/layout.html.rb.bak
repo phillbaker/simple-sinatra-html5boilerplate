@@ -1,0 +1,7 @@
+require 'boilerplate.html'
+
+class Layout < Erector::Widgets::Html5boilerplate
+  # def main_content
+  #   yield if block_given?
+  # end
+end

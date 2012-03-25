@@ -74,18 +74,19 @@ class App < Sinatra::Base
     File.read(File.join('public', '404.html'))
   end
 
+  #TODO fix problems with layouts (turn them off for the template or somehow use them just for the 'require')
   get '/' do
     @title = "Hello world!"
     @content = "Foo bar. - #{RACK_ENV if defined? RACK_ENV}"
-    #implicit usage of layout.html.rb
-    erector :index, :locals => {:title => @title, :content => @content}
+    erector :index, :locals => {:title => @title, :content => @content}, :layout => false
   end
   
+  #TODO get this working
   get '/inline' do
-    # code = "p text 'text'"
-    # erector code
     erector do
-      p text 'text'
+      p do
+        text 'text'
+      end
     end
   end
   
