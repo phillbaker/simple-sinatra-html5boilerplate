@@ -30,11 +30,19 @@ class App < Sinatra::Base
 
     # The (optional) second parameter defines where the compressed version will be served.
     # The third is the list of files to concatenate and minify
-    js :app, '/js/app.js', [
-      #TODO
-      '/js/jquery.js',
+    js :head, '/js/head.js', [
+      '/js/libs/modernizr-2.0.6.min.js',
     ]
 
+    js :lib, '/js/lib.js', [
+      '/js/libs/jquery-1.6.2.js',
+    ]
+    
+    js :app, '/js/app.js', [
+      '/js/plugins.js',
+      '/js/script.js',
+    ]
+    
     #for scss files name by .css
     #don't really like the redundancy and the trick of calling the file by it's translated name
     css :application, '/css/application.css', [
