@@ -94,20 +94,36 @@ module Erector
       
       #Body, with initial structure, override sub-parts to provide content
       def body_content
-        div(:id => :container) do
-          header do
+        div(:id => :container, :class => container_classes().join(' ')) do
+          header(:class => header_classes().join(' ')) do
             header_content()
           end
-          div(:id => :main, :role => :main) do
+          div(:id => :main, :role => :main, :class => main_classes().join(' ')) do
             main_content()
           end
-          footer do
+          footer(:class => footer_classes().join(' ')) do
             footer_content()
           end
         end
         #JavaScript at the bottom for fast page loading
         scripts()
       end #end of body_content
+      
+      def container_classes
+        []
+      end
+      
+      def header_classes
+        []
+      end
+      
+      def main_classes
+        []
+      end
+      
+      def footer_classes
+        []
+      end
       
       #Over ride me to provide header content or call with block
       def header_content
