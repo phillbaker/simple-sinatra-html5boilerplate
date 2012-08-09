@@ -3,5 +3,5 @@
 */
 
 $(function() {
-  $('body').emailSpamProtection('email'); 
+  //TODO something cool
 });

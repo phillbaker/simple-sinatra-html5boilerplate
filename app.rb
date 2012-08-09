@@ -1,10 +1,15 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'compass'
 
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/assetpack'
 require 'sinatra/advanced_routes'
+
+require 'less'
+require 'jsmin'
+
+require 'rack/csrf'
 
 require 'lib/sinatra/erector'
 require 'lib/sinatra/assetpackhelpers'
@@ -21,6 +26,7 @@ class App < Sinatra::Base
   
   configure :development do
     register Sinatra::Reloader
+    use Rack::CommonLogger # https://github.com/sinatra/sinatra/issues/454
   end
 
   assets do
@@ -35,23 +41,27 @@ class App < Sinatra::Base
     ]
 
     js :lib, '/js/lib.js', [
-      '/js/libs/jquery-1.6.2.js',
+      '/js/libs/jquery-1.6.2.js'
     ]
     
     js :app, '/js/app.js', [
+      '/js/opt/bootstrap-2.0.2.js',
       '/js/plugins.js',
       '/js/script.js',
     ]
     
-    #for scss files name by .css
+    #for .less files name by .css
     #don't really like the redundancy and the trick of calling the file by it's translated name
     css :application, '/css/application.css', [
-      '/css/html5boilerplate.css',
-      '/css/style.css' 
+      '/css/h5bp.css',
+      '/css/bootstrap.css',
+      #'/css/bootstrap-responsive.css',
+      # '/css/bootstrap.aggregated.css',
+      #'/css/app.less'
     ]
 
     js_compression  :jsmin
-    css_compression :sass
+    css_compression :less
   end
   
   helpers do

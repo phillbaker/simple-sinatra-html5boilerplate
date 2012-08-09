@@ -1,16 +1,20 @@
+#intialize with: $ bundle install --path .bundle
+
 source :rubygems
 
-gem 'compass' #=> sass implied...
+gem 'less', '~>2.1.0'
 gem 'erector'
 
 group :development do
-  #for development
-  gem 'mongrel'
+  gem 'thin'
 end
+
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-advanced-routes'
-gem 'sinatra-assetpack', :require => 'sinatra/assetpack'
+gem 'sinatra-assetpack', :require => 'sinatra/assetpack', :git => 'git://github.com/phillbaker/sinatra-assetpack.git', :ref => "9302731670bfc2f8e4628aa7985b64929ff1e376"
+
+gem 'rack_csrf'
 
 gem 'activesupport'
 gem 'i18n'
