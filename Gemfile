@@ -2,8 +2,9 @@
 
 source :rubygems
 
-gem 'less', '~>2.1.0'
-gem 'erector'
+gem 'therubyracer'
+gem 'less'
+gem 'erector', '~>0.8.3'
 
 group :development do
   gem 'thin'
