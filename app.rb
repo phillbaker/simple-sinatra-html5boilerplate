@@ -26,7 +26,6 @@ class App < Sinatra::Base
   
   configure :development do
     register Sinatra::Reloader
-    use Rack::CommonLogger # https://github.com/sinatra/sinatra/issues/454
   end
 
   assets do
