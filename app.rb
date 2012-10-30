@@ -36,7 +36,7 @@ class App < Sinatra::Base
     # The (optional) second parameter defines where the compressed version will be served.
     # The third is the list of files to concatenate and minify
     js :head, '/js/head.js', [
-      '/js/libs/modernizr-2.0.6.min.js',
+      '/js/libs/modernizr-2.0.6.min.js'
     ]
 
     js :lib, '/js/lib.js', [
@@ -46,14 +46,14 @@ class App < Sinatra::Base
     js :app, '/js/app.js', [
       '/js/opt/bootstrap-2.0.2.js',
       '/js/plugins.js',
-      '/js/script.js',
+      '/js/script.js'
     ]
     
     #for .less files name by .css
     #don't really like the redundancy and the trick of calling the file by it's translated name
     css :application, '/css/application.css', [
       '/css/h5bp.css',
-      '/css/bootstrap.css',
+      '/css/bootstrap.css'#,
       #'/css/bootstrap-responsive.css',
       # '/css/bootstrap.aggregated.css',
       #'/css/app.less'

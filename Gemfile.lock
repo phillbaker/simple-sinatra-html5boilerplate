@@ -76,12 +76,13 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
-  erector
+  erector (~> 0.8.3)
   i18n
-  less (~> 2.1.0)
+  less
   rack_csrf
   sinatra
   sinatra-advanced-routes
   sinatra-assetpack!
   sinatra-contrib
+  therubyracer
   thin
