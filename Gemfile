@@ -2,7 +2,9 @@
 
 source :rubygems
 
+gem 'oj'
 gem 'therubyracer'
+gem 'uglifier'
 gem 'less'
 gem 'erector', '~>0.8.3'
 

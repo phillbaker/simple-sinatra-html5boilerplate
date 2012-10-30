@@ -7,7 +7,7 @@ require 'sinatra/assetpack'
 require 'sinatra/advanced_routes'
 
 require 'less'
-require 'jsmin'
+require 'uglifier'
 
 require 'rack/csrf'
 
@@ -18,9 +18,10 @@ class App < Sinatra::Base
   set :root, File.dirname(__FILE__)
   set :app_file, __FILE__
   set :views, File.join('app', 'views')
-  #add the views directory to the 'require' LOAD_PATH for erector templates to work
+  # set :environment, :production #For production testing
+  # Add the views directory to the 'require' LOAD_PATH for erector templates to work
   $: << settings.views
-  #use ./public for static files
+  # Use ./public for static files
   set :logging, true
   register Sinatra::AssetPack
   
@@ -59,7 +60,7 @@ class App < Sinatra::Base
       #'/css/app.less'
     ]
 
-    js_compression  :jsmin
+    js_compression  :uglify
     css_compression :less
   end
   
